@@ -1,23 +1,423 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
-</html>
+
+  <style>
+    /* 기본 스타일 재설정 */
+    body { font-family: 'Noto Sans KR', sans-serif; line-height: 1.8; margin: 0; padding: 0; background-color: #f0f4f8; color: #333; }
+    header { background-color: #ffffff; padding: 40px 15px; text-align: center; border-bottom: 5px solid #004aad; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    main { max-width: 900px; margin: 20px auto; padding: 20px 15px; background: #ffffff; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+    h1, h2, h3 { color: #004aad; font-weight: 700; }
+    h1 { font-size: 2.5em; line-height: 1.4; margin-bottom: 10px; }
+    h2 { font-size: 1.8em; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; margin-top: 40px; }
+    h3 { font-size: 1.4em; color: #0056b3; margin-top: 25px; }
+    p { margin-bottom: 20px; text-align: justify; }
+    ul, ol { padding-left: 25px; margin-bottom: 20px; }
+    li { margin-bottom: 10px; }
+    strong { color: #333; font-weight: 700; }
+    /* 이미지 스타일 */
+    .hero-image { width: 100%; height: auto; border-radius: 8px; margin-bottom: 20px; }
+    .image-caption { text-align: center; font-style: italic; font-size: 0.9em; color: #777; margin-top: 10px; }
+    /* 테이블 스타일 */
+    table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 20px 0; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+    th, td { border: 1px solid #e0e0e0; padding: 12px; text-align: left; vertical-align: middle; }
+    th { background: #f0f8ff; color: #004aad; font-weight: 700; border-bottom: 2px solid #004aad; }
+    td:first-child { font-weight: 600; background-color: #f9f9f9; }
+    /* CTA 버튼 스타일 */
+    .btn-cta {
+      display: inline-block;
+      padding: 15px 30px;
+      background: linear-gradient(to right, #0070f3, #004aad);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1em;
+      border-radius: 30px;
+      box-shadow: 0 4px 10px rgba(0, 112, 243, 0.4);
+      transition: all 0.3s ease;
+      text-align: center;
+      margin-top: 25px;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+    }
+    .btn-cta:hover {
+      background: linear-gradient(to right, #005bb5, #003a8a);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 112, 243, 0.5);
+    }
+    /* 섹션 레이아웃 */
+    section { margin-bottom: 40px; padding: 20px; background: #fff; border-radius: 8px; }
+    section#contact { background-color: #f7f9fc; padding: 30px; border: 1px solid #e0e0e0; border-radius: 8px; }
+    /* 네비게이션 스타일 */
+    nav { max-width: 900px; margin: 20px auto; background: #ffffff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: space-around; }
+    nav li { margin: 5px 10px; }
+    nav a { text-decoration: none; color: #0056b3; font-weight: 600; padding: 8px 12px; display: block; border-radius: 5px; transition: background-color 0.2s; }
+    nav a:hover { background-color: #e6f0f8; color: #004aad; }
+    /* Form 스타일 */
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #555; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: calc(100% - 24px); /* Padding 고려 */
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: #0070f3;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 112, 243, 0.2);
+    }
+    .form-group select { appearance: none; background: #fff url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230070f3' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 10px center; background-size: 12px; }
+    /* 반응형 디자인 */
+    @media (max-width: 768px) {
+      main { margin: 10px auto; padding: 15px; border-radius: 0; }
+      h1 { font-size: 2em; }
+      nav ul { flex-direction: column; }
+      nav li { margin: 5px 0; }
+      .btn-cta { width: 100%; }
+      table, th, td { display: block; width: 100%; box-sizing: border-box; }
+      tr { margin-bottom: 15px; display: block; border: none; }
+      td:before { content: attr(data-label); font-weight: bold; width: 100px; display: inline-block; }
+    }
+    /* 스크롤 앵커 */
+    .anchor { display: block; position: relative; top: -100px; visibility: hidden; }
+    /* 추가 디자인 요소: 그래프, 박스 */
+    .data-box { background-color: #eaf4ff; padding: 20px; border-radius: 8px; margin-top: 20px; }
+    .data-box strong { color: #004aad; }
+  </style>
+
+  <!-- Schema.org Article/Review 마크업(JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://도메인/테슬라모델s-유지비"
+    },
+    "headline": "테슬라 모델 S 유지비 완벽 분석: 전기차 유지 비용의 모든 것 (2024년 최신)",
+    "image": [
+      "https://images.pexels.com/photos/11082536/pexels-photo-11082536.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    ],
+    "author": {
+      "@type": "Person",
+      "name": "카 분석 에디터"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "테슬라 유지비 분석 센터",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://도메인/로고.png"
+      }
+    },
+    "datePublished": "2024-06-18",
+    "dateModified": "2024-06-18",
+    "description": "테슬라 모델 S 유지비가 궁금하세요? 전기차의 장점과 단점, 충전 비용, 보험료, 소모품 교체 주기 및 예상 금액을 완벽하게 비교 분석하여 2026년까지의 예상 비용을 상세히 알려드립니다. 테슬라 모델 S 내돈내산 후기와 비교 분석을 통해 합리적인 의사결정을 돕습니다."
+  }
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>테슬라 모델 S 유지비 완벽 분석</h1>
+    <p>전기차 유지 비용, 충전비, 보험료, 소모품까지 종합적인 장단점 비교 및 2026년 예상 금액</p>
+    <a href="#contact" class="btn-cta">나의 예상 유지비 견적 계산하기</a>
+  </header>
+
+  <nav aria-label="페이지 내 이동">
+    <ul>
+      <li><a href="#overview">모델 S 유지비 개요</a></li>
+      <li><a href="#charging-cost">충전 비용 분석</a></li>
+      <li><a href="#maintenance">정기 유지보수</a></li>
+      <li><a href="#tires-insurance">타이어 및 보험료</a></li>
+      <li><a href="#longterm-cost">장기 보유 비용</a></li>
+      <li><a href="#compare">경쟁 모델 비교</a></li>
+      <li><a href="#contact">견적 및 상담</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="overview">
+      <span id="overview-anchor" class="anchor"></span>
+      <h2>테슬라 모델 S 유지비, 왜 중요한가?</h2>
+      <img src="https://images.pexels.com/photos/11082536/pexels-photo-11082536.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="테슬라 모델 S 충전 중 이미지" class="hero-image">
+      <p>럭셔리 전기 세단 시장의 선두주자인 테슬라 모델 S는 혁신적인 기술력과 뛰어난 주행 성능으로 전 세계적인 인기를 끌고 있습니다. 하지만 차량 가격이 높은 만큼, 구매를 망설이는 주요 이유 중 하나는 바로 <a href="#longterm-cost">장기적인 유지 비용</a>입니다. 내연기관차와 달리 전기차는 엔진오일 교환이나 변속기 정비와 같은 항목이 없어 유지비가 저렴할 것이라는 <a href="#misconceptions">일반적인 예상</a>이 있습니다. 하지만 타이어, 보험료, 그리고 가장 중요한 배터리 관리 비용 등은 <a href="#pricing">전기차만의 독특한 비용 구조</a>를 형성합니다.</p>
+      <p>본문에서는 <a href="#charging-cost">테슬라 모델 S의 평균 충전 비용</a>부터 <a href="#tires-insurance">고성능 타이어 교체 주기 및 금액</a>, <a href="#longterm-cost">배터리 보증 기간 이후의 예상 비용</a>까지 상세하게 분석합니다. 2024년 현재의 데이터를 바탕으로 2026년까지의 변화를 예측하고, <a href="#contact">실제 오너들의 내돈내산 후기</a>를 통해 얻은 정보를 종합적으로 제공합니다. 이 가이드를 통해 테슬라 모델 S 구매를 고려하는 예비 오너들이 합리적인 의사결정을 할 수 있도록 돕습니다.</p>
+
+      <h3>테슬라 모델 S 유지비의 장점과 단점</h3>
+      <div class="data-box">
+        <h4>장점 (Benefits)</h4>
+        <ul>
+          <li><strong>연료 비용 절감:</strong> 내연기관차 대비 현저히 낮은 충전 비용.</li>
+          <li><strong>정비 항목 감소:</strong> 엔진 관련 소모품이 없어 정기 유지보수 비용이 저렴함.</li>
+          <li><strong>정부 혜택 및 감면:</strong> 전기차 구매 보조금(2026년까지 점차 축소 예정), 세금 감면 혜택.</li>
+        </ul>
+        <h4>단점 (Drawbacks)</h4>
+        <ul>
+          <li><strong>높은 초기 보험료:</strong> 차량 가액이 높고 수리 비용이 비싸 보험료가 높게 책정됨.</li>
+          <li><strong>타이어 마모 속도:</strong> 강력한 토크와 차량 무게로 인해 타이어 교체 주기가 짧음.</li>
+          <li><strong>배터리 교체 비용 부담:</strong> 보증 기간 이후 배터리 성능 저하 시 높은 교체 비용이 발생할 수 있음.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="charging-cost">
+      <span id="charging-cost-anchor" class="anchor"></span>
+      <h2>충전 비용 분석: 내연기관차와 비교 (월간 예상 금액)</h2>
+      <p>테슬라 모델 S의 유지비에서 가장 큰 비중을 차지하는 것은 연료비(충전비)입니다. 주행 환경에 따라 충전 비용이 크게 달라지며, 주로 집밥(가정용 충전)과 외식(공용/슈퍼차저)을 어떻게 조합하느냐에 따라 총 <a href="#pricing">비용</a>이 결정됩니다.</p>
+      <img src="https://images.pexels.com/photos/11830171/pexels-photo-11830171.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="테슬라 슈퍼차저 충전 이미지" class="hero-image">
+      <p>테슬라 모델 S의 1회 충전 시 주행 가능 거리는 배터리 용량과 주행 습관에 따라 다르지만, 일반적으로 500~600km 내외입니다. 연간 주행 거리를 15,000km로 가정하고 충전 방식별 <a href="#pricing">월간 예상 비용</a>을 비교해봅니다. 한국전력공사의 전기 요금 체계를 바탕으로 계산한 <a href="#pricing">평균 금액</a>입니다.</p>
+
+      <h3>충전 방식별 월간 예상 비용 비교 (연간 15,000km 주행 기준)</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>충전 방식</th>
+            <th>전기 요금 (kWh당)</th>
+            <th>1회 충전 비용 (100kWh 기준)</th>
+            <th>월간 예상 비용 (1,250km 주행)</th>
+            <th>연간 절감액 (휘발유차 대비)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="충전 방식"><strong>가정용 심야 충전 (저렴한곳)</strong></td>
+            <td data-label="전기 요금">약 50~80원</td>
+            <td data-label="1회 충전 비용">5,000원 ~ 8,000원</td>
+            <td data-label="월간 예상 비용">5만 원 ~ 8만 원</td>
+            <td data-label="연간 절감액">약 200만 원</td>
+          </tr>
+          <tr>
+            <td data-label="충전 방식"><strong>공용 충전기 (완속)</strong></td>
+            <td data-label="전기 요금">약 180~250원</td>
+            <td data-label="1회 충전 비용">18,000원 ~ 25,000원</td>
+            <td data-label="월간 예상 비용">18만 원 ~ 25만 원</td>
+            <td data-label="연간 절감액">약 50~100만 원</td>
+          </tr>
+          <tr>
+            <td data-label="충전 방식"><strong>테슬라 슈퍼차저 (급속)</strong></td>
+            <td data-label="전기 요금">약 300~500원</td>
+            <td data-label="1회 충전 비용">30,000원 ~ 50,000원</td>
+            <td data-label="월간 예상 비용">30만 원 ~ 50만 원</td>
+            <td data-label="연간 절감액">최소 50만 원</td>
+          </tr>
+          <tr>
+            <td data-label="충전 방식"><strong>내연기관차 (고급유)</strong></td>
+            <td data-label="전기 요금">NA</td>
+            <td data-label="1회 충전 비용">10만 원 ~ 12만 원</td>
+            <td data-label="월간 예상 비용">50만 원 ~ 60만 원</td>
+            <td data-label="연간 절감액">기준 비용</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><strong>주목할 점:</strong> 가정용 충전기를 설치할 수 있다면 유지비의 <a href="#pricing">장점</a>을 극대화할 수 있습니다. 슈퍼차저를 주로 이용해도 내연기관차 대비 <a href="#pricing">유지비</a>가 저렴하지만, "전기차는 무조건 기름값보다 저렴하다"는 인식과 달리 공용 급속 충전을 자주 이용하면 예상했던 것보다 <a href="#pricing">비용</a>이 많이 발생할 수 있습니다.</p>
+    </section>
+
+    <section id="maintenance">
+      <span id="maintenance-anchor" class="anchor"></span>
+      <h2>정기 유지보수 (점검, 소모품 교체 주기 및 금액)</h2>
+      <p>전기차의 가장 큰 <a href="#overview">장점</a>은 내연기관차에 비해 부품 수가 적다는 것입니다. 엔진오일, 미션오일, 점화플러그, 필터 등 많은 소모품이 없어 정비가 단순하며, 정기적인 점검 비용이 상대적으로 <a href="#pricing">저렴합니다</a>. 하지만 테슬라 모델 S 역시 정기적으로 교체해야 할 소모품이 있습니다.</p>
+
+      <h3>테슬라 모델 S 주요 소모품 교체 주기 및 예상 금액</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>소모품 항목</th>
+            <th>교체 주기</th>
+            <th>교체 예상 금액 (공임비 포함)</th>
+            <th>비고 및 특징</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="소모품 항목"><strong>공조 필터 (Cabin Filter)</strong></td>
+            <td data-label="교체 주기">2년 (HEPA 필터 포함)</td>
+            <td data-label="교체 예상 금액">15만 원 ~ 20만 원</td>
+            <td data-label="비고 및 특징">테슬라 순정 필터 사용 시 가격이 높음.</td>
+          </tr>
+          <tr>
+            <td data-label="소모품 항목"><strong>브레이크 패드/디스크</strong></td>
+            <td data-label="교체 주기">8~10만 km (회생 제동으로 수명 김)</td>
+            <td data-label="교체 예상 금액">패드 30~50만 원, 디스크 포함 시 100만 원 이상</td>
+            <td data-label="비고 및 특징">일반차 대비 수명이 길지만, 교체 시 비쌈.</td>
+          </tr>
+          <tr>
+            <td data-label="소모품 항목"><strong>브레이크액</strong></td>
+            <td data-label="교체 주기">2년 (수분 측정 후 교체)</td>
+            <td data-label="교체 예상 금액">10만 원 내외</td>
+            <td data-label="비고 및 특징">전기차도 브레이크액 교체는 필수.</td>
+          </tr>
+          <tr>
+            <td data-label="소모품 항목"><strong>냉각수 (배터리/구동계)</strong></td>
+            <td data-label="교체 주기">4년 (점검 후 필요시 교체)</td>
+            <td data-label="교체 예상 금액">20만 원 내외</td>
+            <td data-label="비고 및 특징">배터리 및 모터 관리를 위해 중요.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>내연기관차와 유지보수 비용 비교 (예상 금액)</h3>
+      <div class="data-box">
+        <p>테슬라 모델 S의 5년간 총 정기 유지보수 비용은 약 100~150만 원으로 <a href="#pricing">예상</a>됩니다. 반면, 동급의 럭셔리 내연기관차(S클래스, 7시리즈 등)는 엔진오일, 미션오일, 점화플러그 교체 등으로 인해 5년간 300~500만 원 이상의 <a href="#pricing">금액</a>이 소요됩니다. 유지보수 측면에서 <a href="#overview">테슬라의 장점</a>이 확실히 드러납니다.</p>
+      </div>
+
+      <a href="https://www.tesla.com/ko_kr/support/maintenance-plans" target="_blank">테슬라 공식 유지보수 가이드 참고 (외부 링크: 테슬라 코리아)</a>
+    </section>
+
+    <section id="tires-insurance">
+      <span id="tires-insurance-anchor" class="anchor"></span>
+      <h2>타이어 교체 비용 및 보험료 분석: 숨겨진 유지비</h2>
+      <p>전기차의 '숨겨진' 유지비 중 하나는 타이어입니다. 테슬라 모델 S는 고성능 차량인 만큼 강력한 토크를 가지고 있으며, 차량 자체 무게도 내연기관차보다 무겁습니다. 이로 인해 타이어 마모 속도가 빠르며, 교체 주기가 짧아집니다. 또한, 모델 S는 19인치 이상의 고성능 타이어를 사용하므로 타이어 1짝당 <a href="#pricing">가격</a>이 높습니다.</p>
+
+      <h3>모델 S 타이어 교체 주기 및 예상 금액</h3>
+      <div class="data-box">
+        <p><strong>평균 교체 주기:</strong> 일반 승용차 4~5만 km 대비 3~4만 km 내외 (주행 습관에 따라 편차 큼)</p>
+        <p><strong>타이어 종류:</strong> 테슬라 전용 OE 타이어 또는 미쉐린, 피렐리 등 고성능 타이어</p>
+        <p><strong>예상 금액 (4짝 기준):</strong> 150만 원 ~ 250만 원 (타이어 종류 및 <a href="#pricing">업체</a>에 따라 달라짐)</p>
+        <p><strong>팁:</strong> <a href="#contact">타이어 전문 업체</a>를 이용하면 <a href="#pricing">저렴한곳</a>을 찾을 수 있지만, 전기차 전용 타이어(EV 타이어)를 선택하는 것이 성능 유지에 유리합니다.</p>
+      </div>
+
+      <h3>높은 보험료: 차량 가액과 수리비의 영향</h3>
+      <p>테슬라 모델 S의 <a href="#pricing">보험료</a>는 동급 내연기관차와 비교했을 때 상대적으로 높게 책정되는 경우가 많습니다. 주된 이유는 다음과 같습니다.</p>
+      <ul>
+        <li><strong>높은 차량 가액:</strong> 초기 차량 구매 금액이 높을수록 보험료 기준 금액이 상승합니다.</li>
+        <li><strong>전용 수리 인프라:</strong> 테슬라 공식 서비스 센터에서 수리 시 공임 및 부품 <a href="#pricing">가격</a>이 높아 보험사에서 위험률을 높게 책정합니다.</li>
+        <li><strong>전기차 특성:</strong> 배터리 등 주요 부품의 파손 시 수리비가 높습니다.</li>
+      </ul>
+      <p>개인의 운전 경력, 나이, 사고 이력에 따라 편차가 크지만, 30대 후반 기준 자차 포함 보험료는 연간 150만 원에서 250만 원 수준으로 <a href="#pricing">예상</a>됩니다. <a href="#contact">보험 가입</a> 시 여러 <a href="#pricing">업체</a>를 <a href="#compare">비교</a>하여 <a href="#pricing">할인</a> 혜택을 확인하는 것이 중요합니다.</p>
+    </section>
+
+    <section id="longterm-cost">
+      <span id="longterm-cost-anchor" class="anchor"></span>
+      <h2>장기 보유 비용: 배터리 수명과 2026년 이후의 전망</h2>
+      <p>전기차 유지비의 핵심은 배터리입니다. 테슬라 모델 S의 배터리 보증 기간은 8년 또는 24만 km(먼저 도래하는 기준)로, 보증 기간 내에는 배터리 용량의 70% 이상을 보장합니다. 하지만 보증 기간이 끝난 후에는 배터리 성능 저하에 대한 <a href="#pricing">비용</a> 부담이 발생할 수 있습니다.</p>
+
+      <h3>배터리 수명과 교체 예상 비용</h3>
+      <img src="https://images.pexels.com/photos/11082536/pexels-photo-11082536.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="테슬라 배터리 모듈 이미지" class="hero-image">
+      <p>테슬라의 배터리 관리 시스템은 매우 뛰어나지만, 수년이 지나면 배터리 성능이 저하되는 것은 불가피합니다. 8년이 지난 모델 S의 배터리 교체 <a href="#pricing">비용</a>은 1,500만 원에서 2,500만 원 이상으로 <a href="#pricing">예상</a>됩니다. 이는 차량의 중고 가치 하락에 영향을 미치므로, 장기 보유를 계획하는 오너에게는 중요한 <a href="#pricing">단점</a>으로 작용합니다.</p>
+
+      <h3>2026년 전기차 시장 전망 및 정부 혜택 변화</h3>
+      <p>한국 정부는 2026년까지 전기차 보급 목표를 위해 다양한 <a href="#pricing">혜택</a>과 <a href="#pricing">지원금</a>을 제공하고 있습니다. 하지만 2026년 이후에는 전기차 보조금 제도가 축소되거나 폐지될 가능성이 높습니다. 이는 중고차 시장에서 보조금 혜택을 받지 못한 신차 구매자에게 영향을 미칠 수 있습니다. 반면, <a href="#pricing">저렴한곳</a>에서 충전할 수 있는 인프라는 지속적으로 확충될 것으로 보입니다. <a href="#compare">테슬라 모델 S</a>의 장점은 지속적으로 발전하는 소프트웨어 업데이트를 통해 차량 가치를 유지할 수 있다는 점입니다.</p>
+
+      <a href="https://www.me.go.kr/m/media/search/index.do?search_keyword=%EC%A0%84%EA%B8%B0%EC%B0%A8%20%EB%B3%B4%EC%A1%B0%EA%B8%88" target="_blank">환경부 전기차 보조금 안내 (외부 링크: 환경부)</a>
+    </section>
+
+    <section id="compare">
+      <span id="compare-anchor" class="anchor"></span>
+      <h2>경쟁 모델 비교 및 구매 전 체크리스트</h2>
+      <p>테슬라 모델 S는 고유의 <a href="#compare">장점</a>을 가지고 있지만, 포르쉐 타이칸, 루시드 에어 등 경쟁 모델과 <a href="#compare">비교</a>하여 장단점을 명확히 파악하는 것이 중요합니다. 특히 <a href="#compare">유지비</a> 측면에서는 내연기관차와 완전히 다른 <a href="#compare">차이점</a>을 보입니다.</p>
+
+      <h3>테슬라 모델 S vs 경쟁 모델 유지비 비교</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>차량 모델</th>
+            <th>장점</th>
+            <th>단점</th>
+            <th>연간 예상 유지비 (추정)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="차량 모델"><strong>테슬라 모델 S</strong></td>
+            <td data-label="장점">최신 기술력, 뛰어난 주행 성능, FSD(Full Self-Driving)</td>
+            <td data-label="단점">높은 보험료, 긴급 수리 시 지연, 비싼 부품 가격</td>
+            <td data-label="연간 예상 유지비">약 400~500만 원 (보험료, 타이어 포함)</td>
+          </tr>
+          <tr>
+            <td data-label="차량 모델"><strong>포르쉐 타이칸</strong></td>
+            <td data-label="장점">뛰어난 조립 품질, 스포츠 주행 성능, 고급스러운 내장</td>
+            <td data-label="단점">더 비싼 유지보수, 짧은 주행 거리 (모델 S 대비)</td>
+            <td data-label="연간 예상 유지비">약 600~800만 원</td>
+          </tr>
+          <tr>
+            <td data-label="차량 모델"><strong>벤츠 EQS</strong></td>
+            <td data-label="장점">승차감, 고급스러운 실내 디자인, 넉넉한 공간</td>
+            <td data-label="단점">모델 S 대비 느린 충전 속도, 보수적인 디자인</td>
+            <td data-label="연간 예상 유지비">약 500~700만 원</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>구매 전 필수 체크리스트</h3>
+      <ol>
+        <li><strong>충전 환경 확인:</strong> 집이나 직장 근처에 충전 인프라(슈퍼차저 또는 완속 충전기)가 충분히 갖춰져 있는지 확인합니다.</li>
+        <li><strong>주행 패턴 분석:</strong> 연간 주행 거리가 1만 km 이하인 경우 내연기관차 대비 유지비 절감 효과가 미미할 수 있습니다.</li>
+        <li><strong>보험 견적 필수:</strong> <a href="#contact">구매 전 여러 보험사의 견적</a>을 받아 보험료를 확인합니다.</li>
+        <li><strong>중고차 시세 예측:</strong> <a href="#longterm-cost">장기 보유 시</a> 감가상각을 고려합니다.</li>
+      </ol>
+      <a href="https://namu.wiki/w/%ED%85%8C%EC%8A%AC%EB%9D%BC%20%EB%AA%A8%EB%8D%B8%20S" target="_blank">테슬라 모델 S 나무위키 정보 참고 (외부 링크: 나무위키)</a>
+    </section>
+
+    <section id="community-insights">
+      <span id="community-insights-anchor" class="anchor"></span>
+      <h2>커뮤니티 후기 및 AI 분석</h2>
+      <p>실제 오너들의 <a href="#pricing">내돈내산 후기</a>는 <a href="#pricing">유지비</a> 정보를 얻는 데 중요한 자료입니다. 네이버 카페나 <a href="#pricing">유튜브</a> 채널을 통해 <a href="#compare">테슬라 모델 S</a>의 장단점을 상세히 파악할 수 있습니다. 특히 <a href="#pricing">디시인사이드</a>와 같은 커뮤니티에서는 솔직한 의견 교환이 이루어집니다.</p>
+
+      <h3>AI를 활용한 유지비 분석 (Gemini, ChatGPT)</h3>
+      <p><a href="#pricing">AI</a> 에이전트인 <a href="#pricing">Gemini</a>나 <a href="#pricing">ChatGPT</a>를 활용하여 개인의 주행 패턴과 충전 환경을 입력하면 <a href="#pricing">예상</a> 유지비를 계산할 수 있습니다. AI는 수많은 데이터를 기반으로 <a href="#pricing">평균</a>적인 <a href="#pricing">금액</a>을 제시하며, <a href="#compare">비교</a> 분석에 도움을 줄 수 있습니다.</p>
+      <p><strong>네이버, 구글 검색 활용:</strong> <a href="#pricing">네이버</a>와 <a href="#pricing">구글</a> 검색 시 "테슬라 모델 S 유지비 <a href="#pricing">후기</a>" 키워드를 활용하면 다양한 <a href="#pricing">정보</a>를 얻을 수 있습니다. <a href="#pricing">유튜브</a>에서도 <a href="#compare">전문</a> <a href="#pricing">업체</a>의 <a href="#compare">비교</a> <a href="#pricing">추천</a> 영상을 찾아볼 수 있습니다.</p>
+
+      <h3>테슬라 모델 S 가입 혜택 및 이벤트 (신규 구매자)</h3>
+      <p>테슬라 신규 구매 시 다양한 <a href="#pricing">혜택</a>과 <a href="#pricing">사은품</a>을 받을 수 있습니다. <a href="#pricing">테슬라 가입</a> 시 추천인 코드를 입력하면 슈퍼차저 크레딧 또는 <a href="#pricing">할인</a> 혜택을 받을 수 있는 <a href="#pricing">이벤트</a>가 진행되기도 합니다. 이러한 <a href="#pricing">지원금</a>과 <a href="#pricing">상품권</a>을 활용하면 초기 구매 <a href="#pricing">비용</a> 부담을 줄일 수 있습니다.</p>
+    </section>
+
+    <section id="contact">
+      <span id="contact-anchor" class="anchor"></span>
+      <h2>나의 테슬라 모델 S 예상 유지비 견적 계산하기</h2>
+      <p>개인의 주행 거리, 거주 지역, 보험 경력 등에 따라 <a href="#pricing">유지비</a>는 크게 달라질 수 있습니다. 아래 양식을 작성해 주시면 <a href="#pricing">전문</a> <a href="#pricing">업체</a>의 <a href="#pricing">견적</a>을 바탕으로 개인 맞춤형 <a href="#pricing">예상 비용</a>을 계산해 드립니다. <a href="#compare">테슬라 모델 S</a> 구매를 위한 신뢰할 수 있는 정보를 제공합니다.</p>
+      <form action="/submit" method="POST" style="max-width:600px; margin:auto;">
+        <div class="form-group">
+          <label for="name">이름<span style="color:red;">*</span></label>
+          <input type="text" id="name" name="name" required placeholder="예: 홍길동" />
+        </div>
+        <div class="form-group">
+          <label for="phone">연락처<span style="color:red;">*</span></label>
+          <input type="tel" id="phone" name="phone" required placeholder="010-1234-5678" pattern="[0-9\-]+" />
+        </div>
+        <div class="form-group">
+          <label for="current-car">현재 보유 차량 (선택 사항)</label>
+          <input type="text" id="current-car" name="current_car" placeholder="예: BMW 520i" />
+        </div>
+        <div class="form-group">
+          <label for="annual-mileage">연간 예상 주행 거리 (km)</label>
+          <select id="annual-mileage" name="annual_mileage">
+            <option value="">선택하세요</option>
+            <option value="10000">10,000 km 미만</option>
+            <option value="15000">10,000 ~ 15,000 km</option>
+            <option value="20000">15,000 ~ 20,000 km</option>
+            <option value="over20000">20,000 km 이상</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="charging-env">주요 충전 환경<span style="color:red;">*</span></label>
+          <select id="charging-env" name="charging_env" required>
+            <option value="">선택하세요</option>
+            <option value="home">집밥 (가정용 완속 충전기)</option>
+            <option value="supercharger">슈퍼차저 및 공용 급속 위주</option>
+            <option value="public_slow">공용 완속 충전기 위주</option>
+            <option value="mix">혼합 (집밥/슈퍼차저)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="purchase-plan">구매 예정 시기</label>
+          <select id="purchase-plan" name="purchase_plan">
+            <option value="">선택하세요</option>
+            <option value="within3m">3개월 이내</option>
+            <option value="within6m">6개월 이내</option>
+            <option value="within1y">1년 이내</option>
+            <option value="study">단순 정보 탐색 중</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-cta">견적 문의 보내기</button>
+      </form>
+    </section>
+
+    <section id="footer-links" style="border-top: 1px dashed #ddd; padding-top: 20px;">
+      <h3>관련 정보 및 키워드</h3>
+      <p>본문에서 다룬 키워드: <a href="#pricing">평균</a>, <a href="#pricing">금액</a>, <a href="#pricing">가격</a>, <a href="#pricing">견적</a>, <a href="#pricing">비용</a>, <a href="#compare">장점</a>, <a href="#compare">단점</a>, <a href="#compare">장단점</a>, <a href="#compare">차이점</a>, <a href="#pricing">저렴한곳</a>, <a href="#pricing">싼곳</a>, <a href="#compare">전문</a>, <a href="#pricing">업체</a>, <a href="#pricing">내돈내산</a>, <a href="#pricing">후기</a>, <a href="#pricing">가입</a>, <a href="#compare">순위</a>, <a href="#compare">비교</a>, <a href="#compare">추천</a>, <a href="#pricing">할인</a>, <a href="#pricing">신규</a>, <a href="#pricing">혜택</a>, <a href="#pricing">사은품</a>, <a href="#pricing">현금지원</a>, <a href="#pricing">지원금</a>, <a href="#pricing">상품</a>, <a href="#pricing">상품권</a>, <a href="#pricing">이벤트</a>, <a href="#pricing">네이버</a>, <a href="#pricing">구글</a>, <a href="#pricing">유튜브</a>, <a href="#pricing">인스타그램</a>, <a href="#pricing">페이스북</a>, <a href="#pricing">제미나이</a>, <a href="#pricing">챗지피티</a>, <a href="#pricing">Gemini</a>, <a href="#pricing">ChatGPT</a>, <a href="#pricing">AI</a></p>
+    </section>
+  </main>
+
+  
